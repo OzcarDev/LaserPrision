@@ -1,8 +1,7 @@
-namespace LaserPrision.Hazards
+namespace LaserPrison.Hazards
 {
    public enum LaserState
     {
-        Inactive,
         Warning,
         Firing,
         Cooldown
