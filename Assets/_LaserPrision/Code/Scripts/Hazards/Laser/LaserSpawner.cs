@@ -1,4 +1,5 @@
 using LaserPrison.Core;
+using LaserPrison.Gameplay;
 using System.Collections;
 using UnityEngine;
 
@@ -8,10 +9,9 @@ namespace LaserPrison.Hazards
     {
 
         [SerializeField] private float spawnInterval = 2.5f;
-        [SerializeField] private BoxCollider gameArea;
         [SerializeField] private float spawnHeight = 10f;
         [SerializeField] private LaserPool laserPool;
-
+        [SerializeField] private GameArea gameArea;
         private Coroutine _spawnRoutine;
 
         private void Awake()
@@ -65,17 +65,7 @@ namespace LaserPrison.Hazards
         {
             Laser laser = laserPool.Get();
 
-            laser.Activate(GetRandomPosition(),Quaternion.identity);
-        }
-
-        private Vector3 GetRandomPosition()
-        {
-            Bounds bounds = gameArea.bounds;
-
-            float x = Random.Range(bounds.min.x, bounds.max.x);
-            float z = Random.Range(bounds.min.z, bounds.max.z);
-
-            return new Vector3(x, spawnHeight, z);
+            laser.Activate(gameArea.GetRandomPosition(spawnHeight),Quaternion.identity);
         }
     }
 }
