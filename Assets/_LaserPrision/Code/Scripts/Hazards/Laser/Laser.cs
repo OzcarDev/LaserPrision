@@ -10,8 +10,16 @@ namespace LaserPrison.Hazards
         [SerializeField] private float activeTime = 0.2f;
         [SerializeField] private int damage = 1;
 
+        [SerializeField] private GameObject warningVisual;
+        [SerializeField] private GameObject beamVisual;
+
         private LaserState _state;
 
+        private void Awake()
+        {
+            warningVisual.SetActive(false);
+            beamVisual.SetActive(false);
+        }
         private void Start()
         {
             StartCoroutine(LaserRoutine());
@@ -20,30 +28,31 @@ namespace LaserPrison.Hazards
         private IEnumerator LaserRoutine()
         {
             _state = LaserState.Warning;
+            warningVisual.SetActive(true);
             yield return new WaitForSeconds(warningTime);
 
+            warningVisual.SetActive(false);
             _state = LaserState.Firing;
+            
 
-            Fire();
+            EnableLaser();
 
             yield return new WaitForSeconds(activeTime);
 
+            DisableLaser();
             _state = LaserState.Cooldown;
 
             Destroy(gameObject);
         }
 
-        private void Fire()
+        private void EnableLaser()
         {
-            Ray ray = new Ray(transform.position, Vector3.down);
+            beamVisual.SetActive(true);
+        }
 
-            if (Physics.Raycast(ray, out RaycastHit hit, 20f))
-            {
-                if (hit.collider.TryGetComponent<IDamageable>(out var damageable))
-                {
-                    damageable.TakeDamage(damage);
-                }
-            }
+        private void DisableLaser()
+        {
+            beamVisual.SetActive(false);
         }
     }
 }
