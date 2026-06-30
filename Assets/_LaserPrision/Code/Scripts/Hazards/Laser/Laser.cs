@@ -15,7 +15,7 @@ namespace LaserPrison.Hazards
         [SerializeField] private GameObject warningVisual;
         [SerializeField] private GameObject beamVisual;
 
-        private LaserState _state;
+        
 
         private Action<Laser> _releaseAction;
 
@@ -25,17 +25,13 @@ namespace LaserPrison.Hazards
             beamVisual.SetActive(false);
         }
 
-        /// <summary>
-        /// Se llama una única vez cuando el objeto es creado por el pool.
-        /// </summary>
+        
         public void SetReleaseAction(Action<Laser> releaseAction)
         {
             _releaseAction = releaseAction;
         }
 
-        /// <summary>
-        /// Se llama cada vez que el láser sale del pool.
-        /// </summary>
+        
         public void Activate(Vector3 position, Quaternion rotation)
         {
             transform.SetPositionAndRotation(position, rotation);
@@ -47,7 +43,7 @@ namespace LaserPrison.Hazards
 
         private IEnumerator LaserRoutine()
         {
-            _state = LaserState.Warning;
+           
 
             warningVisual.SetActive(true);
 
@@ -55,7 +51,6 @@ namespace LaserPrison.Hazards
 
             warningVisual.SetActive(false);
 
-            _state = LaserState.Firing;
 
             EnableLaser();
 
@@ -63,7 +58,6 @@ namespace LaserPrison.Hazards
 
             DisableLaser();
 
-            _state = LaserState.Cooldown;
 
             Release();
         }
@@ -83,11 +77,10 @@ namespace LaserPrison.Hazards
             _releaseAction?.Invoke(this);
         }
 
-        #region IPoolable
+        
 
         public void OnSpawn()
         {
-            _state = LaserState.Warning;
 
             warningVisual.SetActive(false);
             beamVisual.SetActive(false);
@@ -103,6 +96,6 @@ namespace LaserPrison.Hazards
             StopAllCoroutines();
         }
 
-        #endregion
+        
     }
 }

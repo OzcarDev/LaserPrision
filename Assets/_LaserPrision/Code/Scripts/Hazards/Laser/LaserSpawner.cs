@@ -6,13 +6,18 @@ using UnityEngine;
 namespace LaserPrison.Hazards
 {
     public class LaserSpawner : MonoBehaviour
-    {
-
-        [SerializeField] private float spawnInterval = 2.5f;
+    {        
+        [SerializeField] private DifficultyLevel _currentDifficulty;
         [SerializeField] private float spawnHeight = 10f;
         [SerializeField] private LaserPool laserPool;
         [SerializeField] private GameArea gameArea;
+        [SerializeField] private Transform player;
+        [SerializeField] private DifficultyManager difficultyManager;
+
+
         private Coroutine _spawnRoutine;
+
+        
 
         private void Awake()
         {
@@ -22,6 +27,8 @@ namespace LaserPrison.Hazards
         {
             GameManager.Instance.GameStateChanged += OnGameStateChanged;
             OnGameStateChanged(GameState.Playing);
+
+            difficultyManager.DifficultyChanged += OnDifficultyChanged;
         }
 
         private void OnDestroy()
@@ -56,16 +63,46 @@ namespace LaserPrison.Hazards
         {
             while (true)
             {
-                SpawnLaser();
-                yield return new WaitForSeconds(spawnInterval);
+                SpawnWave();
+                yield return new WaitForSeconds(_currentDifficulty.spawnInterval);
             }
         }
 
-        private void SpawnLaser()
+        private void SpawnWave()
+        {
+            SpawnRandomLasers(_currentDifficulty.lasersPerWave);
+
+            SpawnTargetedLasers(_currentDifficulty.targetedLasers);
+        }
+
+        private void SpawnRandomLasers(int quantity)
+        {
+            for(int index = 0; index < quantity; index++)
+            {
+                SpawnLaser(gameArea.GetRandomPosition(spawnHeight));
+            }
+        }
+
+        private void SpawnTargetedLasers(int quantity)
+        {
+            for(int index = 0; index < quantity; index++)
+            {
+                Vector3 position = player.position;
+                position.y = spawnHeight;
+
+                SpawnLaser(position);
+            }
+        }
+
+        private void SpawnLaser(Vector3 position)
         {
             Laser laser = laserPool.Get();
 
-            laser.Activate(gameArea.GetRandomPosition(spawnHeight),Quaternion.identity);
+            laser.Activate(position, Quaternion.identity);
+        }
+        private void OnDifficultyChanged(DifficultyLevel difficulty)
+        {
+            _currentDifficulty = difficulty;
         }
     }
 }

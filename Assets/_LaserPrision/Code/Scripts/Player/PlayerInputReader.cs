@@ -20,6 +20,7 @@ namespace LaserPrison.Player
             if (context.performed)
             {
                 InvulnerabilityPressed?.Invoke();
+                Debug.Log("Invulnerability Pressed");
             }
         }
     }

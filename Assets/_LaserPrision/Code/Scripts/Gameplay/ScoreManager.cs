@@ -10,7 +10,7 @@ namespace LaserPrison.Gameplay
         public int CurrentScore { get; private set; }
         public float ElapsedTime { get; private set; }
 
-        public event Action<int> ScoreChanged;
+        public event Action<int,float> ScoreChanged;
 
         private Coroutine _scoreRoutine;
 
@@ -63,7 +63,7 @@ namespace LaserPrison.Gameplay
 
                 CurrentScore += multiplier;
 
-                ScoreChanged?.Invoke(CurrentScore);
+                ScoreChanged?.Invoke(CurrentScore,ElapsedTime);
             }
         }
 
