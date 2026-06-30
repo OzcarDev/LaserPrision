@@ -1,5 +1,6 @@
 using UnityEngine;
 using LaserPrison.Gameplay;
+using LaserPrison.Core;
 namespace LaserPrison.Player
 {
     [RequireComponent(typeof(CharacterController))]
@@ -22,6 +23,13 @@ namespace LaserPrison.Player
         }
 
         private void Update()
+        {
+            if(GameManager.Instance.CurrentState != GameState.Playing)
+                return;
+            Move();
+        }
+
+        private void Move()
         {
             Vector2 input = _input.MoveInput;
 

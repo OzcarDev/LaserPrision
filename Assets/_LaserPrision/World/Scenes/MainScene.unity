@@ -512,7 +512,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LaserPrison.Gameplay.DifficultyManager
   scoreManager: {fileID: 833073777}
-  difficultySettings: {fileID: 0}
+  difficultySettings: {fileID: 11400000, guid: d94a0ce91a200cf4990d17ac93ff3049, type: 2}
 --- !u!4 &230346093
 Transform:
   m_ObjectHideFlags: 0
@@ -1107,7 +1107,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 360303251}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 856929840}
+        m_TargetAssemblyTypeName: LaserPrison.Core.GameManager, Assembly-CSharp
+        m_MethodName: StartGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &360303251
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1600,7 +1612,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &501183696
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3081,8 +3093,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e814e82858225c4a88e1b65f47f4aad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LaserPrison.UI.GameOverUI
-  GameOverUI: {fileID: 0}
-  GameMenuUI: {fileID: 0}
+  GameOverUI: {fileID: 797534354}
+  GameMenuUI: {fileID: 1431795268}
+  GamePlayUI: {fileID: 501183695}
 --- !u!114 &870135980
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4030,8 +4043,8 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
+  m_UseGravity: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -7969,8 +7982,8 @@ SceneRoots:
   - {fileID: 856929841}
   - {fileID: 1445788313}
   - {fileID: 797534358}
-  - {fileID: 1431795272}
   - {fileID: 501183699}
+  - {fileID: 1431795272}
   - {fileID: 594596848}
   - {fileID: 833073778}
   - {fileID: 870135981}

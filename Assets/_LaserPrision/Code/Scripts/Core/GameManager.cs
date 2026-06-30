@@ -44,6 +44,12 @@ namespace LaserPrison.Core
             GameStateChanged?.Invoke(CurrentState);
         }
 
+        public void StartGame()
+        {
+            CurrentState = GameState.Playing;
+            GameStateChanged?.Invoke(CurrentState);
+        }
+
         public void Restart()
         {
             UnityEngine.SceneManagement.SceneManager.LoadScene(

@@ -26,10 +26,10 @@ namespace LaserPrison.Hazards
         private void Start()
         {
             GameManager.Instance.GameStateChanged += OnGameStateChanged;
-            OnGameStateChanged(GameState.Playing);
 
             difficultyManager.DifficultyChanged += OnDifficultyChanged;
         }
+
 
         private void OnDestroy()
         {
@@ -63,8 +63,8 @@ namespace LaserPrison.Hazards
         {
             while (true)
             {
-                SpawnWave();
                 yield return new WaitForSeconds(_currentDifficulty.spawnInterval);
+                SpawnWave();
             }
         }
 

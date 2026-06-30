@@ -8,6 +8,7 @@ namespace LaserPrison.UI
     {
         [SerializeField] private GameObject GameOverUI;
         [SerializeField] private GameObject GameMenuUI;
+        [SerializeField] private GameObject GamePlayUI;
 
         private void Start()
         {
@@ -34,14 +35,17 @@ namespace LaserPrison.UI
             {
                 case GameState.Waiting:
                     GameMenuUI.SetActive(true);
+                    GamePlayUI.SetActive(false);
                     break;
 
                 case GameState.Playing:
                     GameMenuUI.SetActive(false);
+                    GamePlayUI.SetActive(true);
                     break;
 
                 case GameState.GameOver:
                     GameOverUI.SetActive(true);
+                    GamePlayUI.SetActive(false);
                     break;
                 default:
                     GameMenuUI.SetActive(true);
