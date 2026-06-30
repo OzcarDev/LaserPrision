@@ -25,9 +25,9 @@ namespace LaserPrison.Core
             Instance = this;
         }
 
-        private void Start()
+        private void OnEnable()
         {
-            CurrentState = GameState.Playing;
+            CurrentState = GameState.Waiting;
             GameStateChanged?.Invoke(CurrentState);
 
             playerHealth.Died += OnPlayerDied;
