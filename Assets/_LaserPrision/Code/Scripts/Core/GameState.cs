@@ -1,4 +1,4 @@
-namespace LaserPrision.Core
+namespace LaserPrison.Core
 {
     public enum GameState
     {
