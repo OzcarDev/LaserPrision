@@ -6,14 +6,18 @@ namespace LaserPrison.Hazards
 {
     public class LaserSpawner : MonoBehaviour
     {
-        [SerializeField] private Laser laserPrefab;
 
         [SerializeField] private float spawnInterval = 2.5f;
-        [SerializeField] private Vector2 areaSize = new Vector2(3f, 3f);
+        [SerializeField] private BoxCollider gameArea;
         [SerializeField] private float spawnHeight = 10f;
+        [SerializeField] private LaserPool laserPool;
 
         private Coroutine _spawnRoutine;
 
+        private void Awake()
+        {
+            Debug.Assert(laserPool != null, "LaserPool reference is missing.");
+        }
         private void Start()
         {
             GameManager.Instance.GameStateChanged += OnGameStateChanged;
@@ -59,13 +63,19 @@ namespace LaserPrison.Hazards
 
         private void SpawnLaser()
         {
-            Vector3 randomPos = new Vector3(
-                Random.Range(-areaSize.x, areaSize.x),
-                spawnHeight,
-                Random.Range(-areaSize.y, areaSize.y)
-            );
+            Laser laser = laserPool.Get();
 
-            Instantiate(laserPrefab, randomPos, Quaternion.identity);
+            laser.Activate(GetRandomPosition(),Quaternion.identity);
+        }
+
+        private Vector3 GetRandomPosition()
+        {
+            Bounds bounds = gameArea.bounds;
+
+            float x = Random.Range(bounds.min.x, bounds.max.x);
+            float z = Random.Range(bounds.min.z, bounds.max.z);
+
+            return new Vector3(x, spawnHeight, z);
         }
     }
 }

@@ -1,16 +1,8 @@
-using UnityEngine;
-
-public class IPoolable : MonoBehaviour
+namespace LaserPrison.Interfaces
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public interface IPoolable
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        void OnSpawn();
+        void OnDespawn();
     }
 }
