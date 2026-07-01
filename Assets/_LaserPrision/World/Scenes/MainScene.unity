@@ -4115,7 +4115,7 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 3
   m_Height: 2
-  m_Radius: 0.3
+  m_Radius: 0.4
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
@@ -4214,13 +4214,13 @@ MonoBehaviour:
   Damaged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 0
+      - m_Target: {fileID: 7957211970812740942}
+        m_TargetAssemblyTypeName: VFXController, Assembly-CSharp
+        m_MethodName: DamageVFX
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -8264,6 +8264,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3901515396312111120}
+  - component: {fileID: 7957211970812740942}
   - component: {fileID: 1689396558468085374}
   - component: {fileID: 7957211970812740941}
   m_Layer: 0
@@ -8295,6 +8296,21 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &7957211970812740942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7957211970812740940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec852cf2592e5df42a73480814ebd252, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VFXController
+  damageDuration: 1
+  damageColor: {r: 1, g: 0, b: 0, a: 1}
+  playerMaterial: {fileID: 1689396558468085374}
 --- !u!4 &8052164600479470424
 Transform:
   m_ObjectHideFlags: 0
@@ -8382,7 +8398,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8664282847078370100}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: -1, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
@@ -8390,7 +8406,7 @@ Transform:
   - {fileID: 3901515396312111120}
   - {fileID: 1551249220425048244}
   m_Father: {fileID: 1194513017}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!1 &8446745680427600343
 GameObject:
   m_ObjectHideFlags: 0

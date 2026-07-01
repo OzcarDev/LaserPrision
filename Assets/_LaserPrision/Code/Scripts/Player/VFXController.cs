@@ -1,16 +1,28 @@
+using System.Collections;
 using UnityEngine;
 
 public class VFXController : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [Header("Settings")]
+    [SerializeField] private float damageDuration = 2f;
+    [SerializeField] private Color damageColor = Color.red;
+
+    [Header("References")]
+    [SerializeField] private Renderer playerMaterial;
+
+    public void DamageVFX()
     {
-        
+        StartCoroutine(ChangeMatColorCoroutine(damageColor));
     }
 
-    // Update is called once per frame
-    void Update()
+    private IEnumerator ChangeMatColorCoroutine(Color color)
     {
-        
+        Color originColor = playerMaterial.material.color;
+
+        playerMaterial.material.color = color;
+        yield return new WaitForSeconds(damageDuration);
+
+        playerMaterial.material.color = originColor;
+
     }
 }
