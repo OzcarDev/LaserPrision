@@ -28,8 +28,8 @@ MonoBehaviour:
   - startTime: 40
     spawnInterval: 1.5
     lasersPerWave: 3
-    targetedLasers: 2
+    targetedLasers: 1
   - startTime: 90
     spawnInterval: 1
     lasersPerWave: 5
-    targetedLasers: 3
+    targetedLasers: 1
