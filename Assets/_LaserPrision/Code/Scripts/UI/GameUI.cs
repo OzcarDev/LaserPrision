@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using LaserPrison.Core;
 using LaserPrison.Gameplay;
 using TMPro;
@@ -26,6 +25,11 @@ namespace LaserPrison.UI
         private void OnDisable()
         {
             if (GameManager.Instance == null) return; GameManager.Instance.GameStateChanged -= OnGameStateChanged;
+        }
+
+        public void QuitGame()
+        {
+            Application.Quit();
         }
 
         private void OnGameStateChanged(GameState state)
