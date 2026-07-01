@@ -23,7 +23,6 @@ namespace LaserPrison.Hazards
             {
                 damageable.TakeDamage(damage);
                 _hasDamaged = true;
-                Debug.Log("HazardDamage: Dealt " + damage + " damage to " + other.name);
             }
         }
     }

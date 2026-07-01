@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using LaserPrison.Core;
+using LaserPrison.Gameplay;
+using TMPro;
 
 namespace LaserPrison.UI
 {
@@ -9,7 +11,8 @@ namespace LaserPrison.UI
         [SerializeField] private GameObject GameOverUI;
         [SerializeField] private GameObject GameMenuUI;
         [SerializeField] private GameObject GamePlayUI;
-
+        [SerializeField] private ScoreManager scoreManager;
+        [SerializeField] private TMP_Text finalScore;
         private void Start()
         {
             GameOverUI.SetActive(false);
@@ -46,6 +49,7 @@ namespace LaserPrison.UI
                 case GameState.GameOver:
                     GameOverUI.SetActive(true);
                     GamePlayUI.SetActive(false);
+                    finalScore.text = $"Score:{scoreManager.CurrentScore}";
                     break;
                 default:
                     GameMenuUI.SetActive(true);
