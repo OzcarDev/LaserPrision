@@ -1,23 +1,38 @@
+using LaserPrison.Core;
+using LaserPrison.Interfaces;
 using System;
 using UnityEngine;
-using LaserPrison.Interfaces;
+using UnityEngine.Events;
+using UnityEngine.EventSystems;
 namespace LaserPrison.Player
 {
     public class PlayerHealth : MonoBehaviour,IDamageable
     {
+        [Header("Settings")]
         [SerializeField] private int maxLives = 3;
+        [Header("Dependencies")]
         [SerializeField] private PlayerInvulnerability playerInvulnerability;
         public int CurrentLives { get; private set; }
 
         public event Action<int> LivesChanged;
-        public event Action Damaged;
+        public UnityEvent Damaged;
         public event Action Died;
 
         private void Awake()
         {
+            Debug.Assert(playerInvulnerability != null, "PlayerInvulnerability is not assigned in PlayerHealth");
+
             ResetHealth();
         }
+        private void Start()
+        {
+            if (GameManager.Instance != null) GameManager.Instance.GameSessionReset += ResetHealth;
+        }
 
+        private void OnDisable()
+        {
+            if (GameManager.Instance != null) GameManager.Instance.GameSessionReset -= ResetHealth;
+        }
         public void TakeDamage(int damage)
         {
             if(!CanTakeDamage()) return;
@@ -38,7 +53,7 @@ namespace LaserPrison.Player
 
             return true;
         }
-        public void ResetHealth()
+        private void ResetHealth()
         {
             CurrentLives = maxLives;
             LivesChanged?.Invoke(CurrentLives);

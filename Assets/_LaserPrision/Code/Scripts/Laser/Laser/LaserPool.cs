@@ -8,8 +8,6 @@ namespace LaserPrison.Hazards
         {
             Laser laser = base.CreateObject();
 
-            laser.SetReleaseAction(Release);
-
             return laser;
         }
     }

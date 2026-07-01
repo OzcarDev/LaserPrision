@@ -1935,15 +1935,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e374cf895079f1645b7abc5cd1abb5ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LaserPrison.Hazards.LaserSpawner
-  _currentDifficulty:
+  spawnHeight: 10
+  _currentSettings:
     startTime: 0
     spawnInterval: 2.5
     lasersPerWave: 1
     targetedLasers: 0
-  spawnHeight: 10
   laserPool: {fileID: 564829745}
   gameArea: {fileID: 632612852}
-  player: {fileID: 1194513017}
+  playerPosition: {fileID: 1194513017}
   difficultyManager: {fileID: 230346092}
 --- !u!4 &564829744
 Transform:
@@ -3352,7 +3352,7 @@ GameObject:
   - component: {fileID: 872879481}
   - component: {fileID: 872879480}
   m_Layer: 5
-  m_Name: Controls
+  m_Name: Retry
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3422,22 +3422,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 493885717}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 856929840}
+        m_TargetAssemblyTypeName: LaserPrison.Core.GameManager, Assembly-CSharp
+        m_MethodName: ResetGameSession
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -4223,6 +4211,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LaserPrison.Player.PlayerHealth
   maxLives: 3
   playerInvulnerability: {fileID: 1194513025}
+  Damaged:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!54 &1194513024
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4276,10 +4279,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87ffa8131f3c95c4b87b0f1e032181c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LaserPrison.Player.PlayerAnimationController
+  rotationSpeed: 15
   movement: {fileID: 1194513020}
   animator: {fileID: 4538833342494370164}
   visual: {fileID: 8319951661685379470}
-  rotationSpeed: 15
 --- !u!1001 &1211548141
 PrefabInstance:
   m_ObjectHideFlags: 0

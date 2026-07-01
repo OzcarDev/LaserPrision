@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08886f1f1b4c2884e8fc1bd45f814195, type: 3}
   m_Name: Level1
   m_EditorClassIdentifier: Assembly-CSharp::DifficultySettings
-  levels:
+  Levels:
   - startTime: 0
     spawnInterval: 2.5
     lasersPerWave: 1
@@ -28,4 +28,8 @@ MonoBehaviour:
   - startTime: 40
     spawnInterval: 1.5
     lasersPerWave: 3
-    targetedLasers: 1
+    targetedLasers: 2
+  - startTime: 90
+    spawnInterval: 1
+    lasersPerWave: 5
+    targetedLasers: 3

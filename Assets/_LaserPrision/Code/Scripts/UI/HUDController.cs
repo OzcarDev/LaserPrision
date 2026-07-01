@@ -7,25 +7,49 @@ namespace LaserPrison.UI
 {
     public class HUDController : MonoBehaviour
     {
+        [Header("Dependencies")]
         [SerializeField] private PlayerHealth playerHealth;
         [SerializeField] private ScoreManager scoreManager;
         [SerializeField] private PlayerInvulnerability playerInvulnerability;
 
+        [Header("UI References")]
         [SerializeField] private TMP_Text shieldStatusText;
-
         [SerializeField] private TMP_Text livesText;
         [SerializeField] private TMP_Text scoreText;
         [SerializeField] private TMP_Text timerText;
 
-        private void Start()
-        {
-            playerHealth.LivesChanged += OnLivesChanged;
-            scoreManager.ScoreChanged += OnScoreChanged;
-            playerInvulnerability.InvulnerabilityStarted += OnShieldStarted;
-            playerInvulnerability.CooldownFinished += OnShieldEnded;
 
-            OnLivesChanged(playerHealth.CurrentLives);
-            OnScoreChanged(scoreManager.CurrentScore,scoreManager.ElapsedTime);
+        private void Awake()
+        {
+            Debug.Assert(playerHealth != null, "Player Health is not assigned in HUDController");
+            Debug.Assert(scoreManager != null, "Score Manager is not assigned in HUDController");
+            Debug.Assert(playerInvulnerability != null, "Player Invulnerability is not assigned in HUDController");
+        }
+
+        private void OnEnable()
+        {
+            if(playerHealth != null)playerHealth.LivesChanged += OnLivesChanged;
+
+            if(playerInvulnerability != null)
+            {
+                playerInvulnerability.InvulnerabilityStarted += OnShieldStarted;
+                playerInvulnerability.CooldownFinished += OnShieldEnded;
+            }
+
+            if(scoreManager!= null) scoreManager.ScoreChanged += OnScoreChanged;
+        }
+
+        private void OnDisable()
+        {
+            if (playerHealth != null) playerHealth.LivesChanged -= OnLivesChanged;
+
+            if (playerInvulnerability != null)
+            {
+                playerInvulnerability.InvulnerabilityStarted -= OnShieldStarted;
+                playerInvulnerability.CooldownFinished -= OnShieldEnded;
+            }
+
+            if (scoreManager != null) scoreManager.ScoreChanged -= OnScoreChanged;
         }
 
         private void OnLivesChanged(int lives)

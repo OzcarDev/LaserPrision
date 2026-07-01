@@ -4,7 +4,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Laser Prison/Difficulty Settings")]
 public class DifficultySettings : ScriptableObject
 {
-    public DifficultyLevel[] levels;
+    public DifficultyLevel[] Levels;
 }
 
 [Serializable]

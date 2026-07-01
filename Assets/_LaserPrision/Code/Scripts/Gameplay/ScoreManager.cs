@@ -11,17 +11,26 @@ namespace LaserPrison.Gameplay
         public float ElapsedTime { get; private set; }
 
         public event Action<int,float> ScoreChanged;
+        public event Action<float> TimeChanged;
 
         private Coroutine _scoreRoutine;
 
         private void Start()
         {
-            GameManager.Instance.GameStateChanged += OnGameStateChanged;
+            if (GameManager.Instance != null) 
+            { 
+                GameManager.Instance.GameStateChanged += OnGameStateChanged;
+                GameManager.Instance.GameSessionReset += ResetScore;
+            } 
         }
 
-        private void OnDestroy()
+        private void OnDisable()
         {
-            if (GameManager.Instance != null) GameManager.Instance.GameStateChanged -= OnGameStateChanged;
+            if (GameManager.Instance != null)
+            {
+                GameManager.Instance.GameStateChanged -= OnGameStateChanged;
+                GameManager.Instance.GameSessionReset -= ResetScore;
+            }
         }
 
         private void OnGameStateChanged(GameState state)
@@ -40,15 +49,16 @@ namespace LaserPrison.Gameplay
 
         private void StartScoring()
         {
-            if (_scoreRoutine != null) StopCoroutine(_scoreRoutine);
-
+            StopScoring();
             _scoreRoutine = StartCoroutine(ScoreLoop());
         }
 
         private void StopScoring()
         {
-            if (_scoreRoutine != null)
-                StopCoroutine(_scoreRoutine);
+            if (_scoreRoutine == null) return;
+
+            StopCoroutine(_scoreRoutine);
+            _scoreRoutine = null;
         }
 
         private IEnumerator ScoreLoop()
@@ -64,6 +74,7 @@ namespace LaserPrison.Gameplay
                 CurrentScore += multiplier;
 
                 ScoreChanged?.Invoke(CurrentScore,ElapsedTime);
+                TimeChanged?.Invoke(ElapsedTime);
             }
         }
 
@@ -73,6 +84,15 @@ namespace LaserPrison.Gameplay
             if (time < 40f) return 2;
             if (time < 90f) return 3;
             return 5;
+        }
+
+        private void ResetScore()
+        {
+            CurrentScore = 0;
+            ElapsedTime = 0;
+
+            ScoreChanged?.Invoke(CurrentScore, ElapsedTime);
+            TimeChanged?.Invoke(ElapsedTime);
         }
     }
 }

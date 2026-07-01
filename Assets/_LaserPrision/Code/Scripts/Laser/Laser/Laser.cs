@@ -17,21 +17,12 @@ namespace LaserPrison.Hazards
 
         
 
-        private Action<Laser> _releaseAction;
 
         private void Awake()
         {
-            warningVisual.SetActive(false);
-            beamVisual.SetActive(false);
+           ResetLaser();
         }
-
-        
-        public void SetReleaseAction(Action<Laser> releaseAction)
-        {
-            _releaseAction = releaseAction;
-        }
-
-        
+ 
         public void Activate(Vector3 position, Quaternion rotation)
         {
             transform.SetPositionAndRotation(position, rotation);
@@ -43,23 +34,17 @@ namespace LaserPrison.Hazards
 
         private IEnumerator LaserRoutine()
         {
-           
-
             warningVisual.SetActive(true);
 
             yield return new WaitForSeconds(warningTime);
 
             warningVisual.SetActive(false);
 
-
             EnableLaser();
 
             yield return new WaitForSeconds(activeTime);
 
             DisableLaser();
-
-
-            Release();
         }
 
         private void EnableLaser()
@@ -72,30 +57,23 @@ namespace LaserPrison.Hazards
             beamVisual.SetActive(false);
         }
 
-        private void Release()
-        {
-            _releaseAction?.Invoke(this);
-        }
-
-        
-
         public void OnSpawn()
         {
-
-            warningVisual.SetActive(false);
-            beamVisual.SetActive(false);
-
-            StopAllCoroutines();
+            ResetLaser();
         }
 
         public void OnDespawn()
         {
+            ResetLaser();
+        }
+
+        private void ResetLaser()
+        {
+            StopAllCoroutines();
+
             warningVisual.SetActive(false);
             beamVisual.SetActive(false);
 
-            StopAllCoroutines();
         }
-
-        
     }
 }

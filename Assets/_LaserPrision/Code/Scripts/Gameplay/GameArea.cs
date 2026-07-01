@@ -7,11 +7,12 @@ namespace LaserPrison.Gameplay
     {
         private BoxCollider _gameAreaCollider;
 
-        private Bounds _bounds => _gameAreaCollider.bounds;
+        private Bounds _bounds;
 
         private void Awake()
         {
             _gameAreaCollider = GetComponent<BoxCollider>();
+            _bounds = _gameAreaCollider.bounds;
         }
 
         public Vector3 ClampPosition(Vector3 position)
@@ -24,14 +25,30 @@ namespace LaserPrison.Gameplay
             return position;
         }
 
-        public Vector3 GetRandomPosition(float y = 0f)
+        public Vector3 GetRandomPosition()
         {
             
 
             return new Vector3(
                 Random.Range(_bounds.min.x, _bounds.max.x),
-                y,
+                0f,
                 Random.Range(_bounds.min.z, _bounds.max.z));
         }
+
+#if UNITY_EDITOR
+        private void OnDrawGizmos()
+        {
+           
+            if (_gameAreaCollider == null)return;
+
+            Gizmos.color = Color.green;
+
+            Gizmos.matrix = transform.localToWorldMatrix;
+
+            Gizmos.DrawWireCube(
+                _gameAreaCollider.center,
+                _gameAreaCollider.size);
+        }
+#endif
     }
 }

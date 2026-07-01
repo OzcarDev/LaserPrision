@@ -1,55 +1,74 @@
-using UnityEngine;
 using LaserPrison.Core;
-using LaserPrison.Hazards;
 using System;
+using UnityEngine;
 
 namespace LaserPrison.Gameplay
 {
     public class DifficultyManager : MonoBehaviour
     {
+        [Header("Dependencies")]
         [SerializeField] private ScoreManager scoreManager;
-        [Space]
+
+        [Header("Settings")]
         [SerializeField] private DifficultySettings difficultySettings;
 
-        private DifficultyLevel _currentLevel;
 
-        public Action<DifficultyLevel> DifficultyChanged;
+        public event Action<DifficultyLevel> DifficultyChanged;
+
+        private int _currentLevelIndex;
+
+        private DifficultyLevel CurrentLevel => difficultySettings.Levels[_currentLevelIndex];
+
+        private void Awake()
+        {
+            Debug.Assert(scoreManager != null, "ScoreManager is not assigned in DifficultyManager");
+            Debug.Assert(difficultySettings != null, "DifficultySettings is not assigned in DifficultyManager");
+            Debug.Assert(difficultySettings.Levels.Length > 0, "Difficulty Settings is empty");
+        }
+
+        private void OnEnable()
+        {
+            if (scoreManager != null) scoreManager.TimeChanged += EvaluateDifficulty;
+        }
+
+        private void OnDisable()
+        {
+            if (GameManager.Instance != null) GameManager.Instance.GameSessionReset -= ResetDifficulty;
+
+            if (scoreManager != null) scoreManager.TimeChanged -= EvaluateDifficulty;
+        }
 
         private void Start()
         {
-            EvaluateDifficulty();
+            if (GameManager.Instance != null) GameManager.Instance.GameSessionReset += ResetDifficulty;
+
+            ResetDifficulty();
         }
 
-        private void Update()
+        private void EvaluateDifficulty(float elapsedTime)
         {
-            EvaluateDifficulty();
-        }
+            if (IsLastLevel()) return;
 
-        private void EvaluateDifficulty()
-        {
-            float elapsedTime = scoreManager.ElapsedTime;
+            DifficultyLevel nextLevel = difficultySettings.Levels[_currentLevelIndex + 1];
 
-            DifficultyLevel level = GetCurrentDifficulty(elapsedTime);
-
-            if (level == _currentLevel)
-                return;
-
-            _currentLevel = level;
-
-            DifficultyChanged?.Invoke(_currentLevel);
-        }
-
-        private DifficultyLevel GetCurrentDifficulty(float elapsedTime)
-        {
-            DifficultyLevel result = difficultySettings.levels[0];
-
-            foreach (DifficultyLevel level in difficultySettings.levels)
+            if(elapsedTime >= nextLevel.startTime)
             {
-                if (elapsedTime >= level.startTime)
-                    result = level;
+                _currentLevelIndex++;
+                DifficultyChanged?.Invoke(CurrentLevel);
             }
+        }
 
-            return result;
+        private void ResetDifficulty()
+        {
+            if (_currentLevelIndex == 0) return;
+
+            _currentLevelIndex = 0;
+            DifficultyChanged?.Invoke(CurrentLevel);
+        }
+
+        private bool IsLastLevel()
+        {
+            return _currentLevelIndex >= difficultySettings.Levels.Length - 1;
         }
     }
 }

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace LaserPrison.Hazards
 {
-    public class HazardDamage : MonoBehaviour
+    public class DamageDealer : MonoBehaviour
     {
         [SerializeField] private int damage = 1;
 
@@ -16,13 +16,12 @@ namespace LaserPrison.Hazards
 
         private void OnTriggerEnter(Collider other)
         {
-            if (_hasDamaged)
-                return;
+            if (_hasDamaged) return;
 
             if (other.TryGetComponent<IDamageable>(out var damageable))
             {
-                damageable.TakeDamage(damage);
                 _hasDamaged = true;
+                damageable.TakeDamage(damage);
             }
         }
     }
